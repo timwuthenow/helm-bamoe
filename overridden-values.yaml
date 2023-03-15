@@ -1,0 +1,71 @@
+global:
+  rhpam:
+    namespace: rhpam-cop
+    environment: authoring
+    installPostconfigure: true
+  rhsso:
+    namespace: rhsso-cop
+    realm: rhpam
+    clients:
+      business-central:
+        secret: rhpam-secret
+      kie-server:
+        secret: rhpam-secret
+rhpam:
+  common:
+    version: 7.9.1
+    server:
+      replicas: 1
+  operator:
+    channel: stable
+    installPlanApproval: Automatic
+    name: businessautomation-operator
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  containers: null
+    #- 'containerId=groupId:artifactId:version'
+  artifacts: null
+    #- gav: groupId:artifactId:version
+  maven:
+    repo:
+      url: http://nexus3-helm-rhdm-kieserver-cicd.itzroks-550006ua4k-kcenoe-6ccd7f378ae819553d37d5f2ee142bd6-0000.au-syd.containers.appdomain.cloud/repository/red_hat_ga/
+      username: admin
+      password: password
+  database:
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    driver: postgresql
+    host: postgresql-helm-rhdm-kieserver-cicd.itzroks-550006ua4k-kcenoe-6ccd7f378ae819553d37d5f2ee142bd6-0000.au-syd.cont
+    name: db
+    password: pass
+    port: 5432
+    username: user
+    nonXA: 'false'
+  customProps:
+    #my-property1: value1
+    #my-property2: value2
+  customSecrets:
+    #my-secret-property1: value1
+    #my-secret-property2: value2
+rhsso:
+  image:
+    context: rhsso
+    name: sso74-openshift-rhel8
+    initContainerName: sso7-rhel8-init-container
+    tag: 7.4
+  database:
+    driver: postgresql
+    host: postgresql-helm-rhdm-kieserver-cicd.itzroks-550006ua4k-kcenoe-6ccd7f378ae819553d37d5f2ee142bd6-0000.au-syd.cont
+    name: db
+    password: pass
+    port: 5432
+    username: user
+  operator:
+    channel: alpha
+    installPlanApproval: Automatic
+    name: rhsso-operator
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  rhpam:
+    admin:
+      username: rhpamadmin
+      password: redhat123#
