@@ -1,7 +1,7 @@
 common:
   imageContext: rhpam-7
   # The image tag for both Business Central and Kie Server
-  version: 7.13.1
+  version: 7.13.2
   server:
     image: rhpam-kieserver-rhel8
     # Number of Kie Server replicas
